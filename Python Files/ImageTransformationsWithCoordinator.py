@@ -4,13 +4,12 @@
 # In[7]:
 
 import tensorflow as tf
-import google.datalab.ml as ml
 
 
 # In[8]:
 
-original_image_list = ["./images/Oba.jpg", 
-                       "./images/Moje.jpg"]
+original_image_list = ["/home/infinity/Pictures/kk.jpeg", "/home/infinity/Pictures/skyline.jpg"]
+
 
 
 # In[9]:
@@ -32,7 +31,7 @@ with tf.Session() as sess:
     coord = tf.train.Coordinator()
     threads = tf.train.start_queue_runners(sess=sess, coord=coord)
 
-    image_list = [];
+    image_list = []
     for i in range(len(original_image_list)):
         # Read a whole file from the queue, the first returned value in the tuple is the
         # filename which we are ignoring.
@@ -52,12 +51,12 @@ with tf.Session() as sess:
 
         # Get an image tensor and print its value.
         image_array = sess.run(image)
-        print image_array.shape
+        print(image_array.shape)
 
         # Converts a numpy array of the kind (224, 224, 3) to a Tensor of shape (224, 224, 3)
         image_tensor = tf.stack(image_array)
 
-        print image_tensor
+        print(image_tensor)
         image_list.append(image_tensor)
 
     # Finish off the filename queue coordinator.
@@ -68,31 +67,16 @@ with tf.Session() as sess:
     # 4 images of (224, 224, 3) can be accessed as (0, 224, 224, 3),
     # (1, 224, 224, 3), (2, 224, 224, 3) etc.
     images_tensor = tf.stack(image_list)
-    print images_tensor
+    print(images_tensor)
 
     index = 0
 
     # Write image summary
-    summary_writer = tf.summary.FileWriter('./ImageTransformationsWithCoordinator', graph=sess.graph)
+    summary_writer = tf.summary.FileWriter('../ImageTransformationsWithCoordinator', graph=sess.graph)
 
     # Write out all the images in one go
     summary_str = sess.run(tf.summary.image("images", images_tensor))
     summary_writer.add_summary(summary_str)
 
     summary_writer.close()
-
-
-# In[14]:
-
-tensorboard_pid = ml.TensorBoard.start('./ImageTransformationsWithCoordinator')
-
-
-# In[13]:
-
-ml.TensorBoard.stop(tensorboard_pid)
-
-
-# In[ ]:
-
-
 

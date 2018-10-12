@@ -1,38 +1,31 @@
-
 # coding: utf-8
 
 # In[ ]:
 
 import tensorflow as tf
-import google.datalab.ml as ml
-
 
 # In[ ]:
 
-original_image_list = ["./images/Oba.jpg", 
-                       "./images/Moje.jpg"]
-
+original_image_list = ["/home/infinity/Pictures/kk.jpeg", "/home/infinity/Pictures/skyline.jpg"]
 
 # In[ ]:
 
 # Make a queue of file names including all the images specified.
 filename_queue = tf.train.string_input_producer(original_image_list)
 
-
 # In[ ]:
 
 # Read an entire image file.
 image_reader = tf.WholeFileReader()
 
-
 # In[ ]:
 
 with tf.Session() as sess:
     # Coordinate the loading of image files.
-    coord = tf.train.Coordinator()
+    coord = tf.train.Coordinator() #coordinates and manage threads
     threads = tf.train.start_queue_runners(sess=sess, coord=coord)
 
-    image_list = [];
+    image_list = []
     for i in range(len(original_image_list)):
         # Read a whole file from the queue, the first returned value in the tuple is the
         # filename which we are ignoring.
@@ -48,7 +41,7 @@ with tf.Session() as sess:
 
         # Get an image tensor and print its value.
         image_array = sess.run(image)
-        print image_array.shape
+        print(image_array.shape)
 
         # The expand_dims adds a new dimension
         image_list.append(tf.expand_dims(image_array, 0))
@@ -59,7 +52,7 @@ with tf.Session() as sess:
     index = 0
 
     # Write image summary
-    summary_writer = tf.summary.FileWriter('./ImageReadAndResizeWithCoordinator', graph=sess.graph)
+    summary_writer = tf.summary.FileWriter('../ImageReadAndResizeWithCoordinator', graph=sess.graph)
 
     for image_tensor in image_list:
         summary_str = sess.run(tf.summary.image("image-" + str(index), image_tensor))
@@ -67,19 +60,3 @@ with tf.Session() as sess:
         index += 1
 
     summary_writer.close()
-
-
-# In[ ]:
-
-tensorboard_pid = ml.TensorBoard.start('./ImageReadAndResizeWithCoordinator')
-
-
-# In[ ]:
-
-ml.TensorBoard.stop(tensorboard_pid)
-
-
-# In[ ]:
-
-
-

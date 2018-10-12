@@ -5,8 +5,6 @@
 
 import numpy as np
 import tensorflow as tf
-import google.datalab.ml as ml
-
 
 # In[17]:
 
@@ -17,13 +15,13 @@ from tensorflow.examples.tutorials.mnist import input_data
 # In[18]:
 
 # Store the MNIST data in a folder
-mnist = input_data.read_data_sets("mnist_data/", one_hot=True)
+mnist = input_data.read_data_sets("..mnist_data/", one_hot=True)
 
 
 # In[19]:
 
-training_digits, training_labels = mnist.train.next_batch(5000)
-test_digits, test_labels = mnist.test.next_batch(200)
+training_digits, training_labels = mnist.train.next_batch(5000) #take 5000 images as our training data with training labels
+test_digits, test_labels = mnist.test.next_batch(200) #take 200 images as our test data with test labels
 
 
 # In[20]:
@@ -72,7 +70,7 @@ with tf.Session() as sess:
         nn_index = sess.run(pred,             feed_dict={training_digits_pl: training_digits, test_digit_pl: test_digits[i, :]})
 
         # Get nearest neighbor class label and compare it to its true label
-        print("Test", i, "Prediction:", np.argmax(training_labels[nn_index]),             "True Label:", np.argmax(test_labels[i]))
+        print("Test", i, "Prediction:", np.argmax(training_labels[nn_index]),"True Label:", np.argmax(test_labels[i]))
 
         # Calculate accuracy
         if np.argmax(training_labels[nn_index]) == np.argmax(test_labels[i]):

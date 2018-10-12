@@ -1,68 +1,54 @@
-
 # coding: utf-8
 
 # In[27]:
 
 import tensorflow as tf
 
-
 # In[28]:
 
 # Model parameters
-W = tf.Variable([.3], dtype=tf.float32)
-b = tf.Variable([-.3], dtype=tf.float32)
-
+m = tf.Variable([.3], dtype=tf.float32) #create a variable for m with initial values to be tweaked
+b = tf.Variable([-.3], dtype=tf.float32) #create a variable for b with initial values to be tweaked
 
 # In[29]:
 
 # Model input and output
-x = tf.placeholder(tf.float32)
-linear_model = W * x + b
-
+x = tf.placeholder(tf.float32) #create the socket x to input values
+linear_model = m * x + b #create the line formula
 
 # In[30]:
 
-y = tf.placeholder(tf.float32)
-
+y = tf.placeholder(tf.float32) #create the label y to input the real points
 
 # In[31]:
 
 # loss
-loss = tf.reduce_sum(tf.square(linear_model - y))
+loss = tf.reduce_sum(tf.square(linear_model - y)) #loss will be the minimized error sum square
 
 # optimizer
 optimizer = tf.train.GradientDescentOptimizer(0.01)
 train = optimizer.minimize(loss)
 
-
 # In[32]:
 
 # training data
-x_train = [1, 2, 3, 4]
-y_train = [0, -1, -2, -3]
-
+x_train = [1, 2, 3, 4] #x values we are inputting into the linear model
+y_train = [0, -1, -2, -3] #true y values we will compare against the linear model
 
 # In[33]:
 
 # training loop
-init = tf.global_variables_initializer()
-
+init = tf.global_variables_initializer() #this must be run before starting session
 
 # In[34]:
 
 with tf.Session() as sess:
-  sess.run(init)
+  sess.run(init) #within the session must be first item run before processing
   
   for i in range(1000):
-    sess.run(train, {x: x_train, y: y_train})
+    sess.run(train, feed_dict={x: x_train, y: y_train})
 
   # evaluate training accuracy
-  curr_W, curr_b, curr_loss = sess.run([W, b, loss], {x: x_train, y: y_train})
+  curr_m, curr_b, curr_loss = sess.run([m, b, loss], {x: x_train, y: y_train})
   
-  print("W: %s b: %s loss: %s"%(curr_W, curr_b, curr_loss))
-
-
-# In[ ]:
-
-
-
+  print("m: {} b: {} loss: {}".format(curr_m[0], curr_b[0], curr_loss))
