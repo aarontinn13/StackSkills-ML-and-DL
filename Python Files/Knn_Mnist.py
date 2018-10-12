@@ -11,23 +11,19 @@ import tensorflow as tf
 # Import MNIST data
 from tensorflow.examples.tutorials.mnist import input_data
 
-
 # In[18]:
 
 # Store the MNIST data in a folder
-mnist = input_data.read_data_sets("..mnist_data/", one_hot=True)
-
+mnist = input_data.read_data_sets("../mnist_data/", one_hot=True)
 
 # In[19]:
 
 training_digits, training_labels = mnist.train.next_batch(5000) #take 5000 images as our training data with training labels
 test_digits, test_labels = mnist.test.next_batch(200) #take 200 images as our test data with test labels
 
-
 # In[20]:
 
 training_digits_pl = tf.placeholder("float", [None, 784])
-
 
 # In[21]:
 
@@ -67,7 +63,7 @@ with tf.Session() as sess:
     # loop over test data
     for i in range(len(test_digits)):
         # Get nearest neighbor
-        nn_index = sess.run(pred,             feed_dict={training_digits_pl: training_digits, test_digit_pl: test_digits[i, :]})
+        nn_index = sess.run(pred, feed_dict={training_digits_pl: training_digits, test_digit_pl: test_digits[i, :]})
 
         # Get nearest neighbor class label and compare it to its true label
         print("Test", i, "Prediction:", np.argmax(training_labels[nn_index]),"True Label:", np.argmax(test_labels[i]))

@@ -26,6 +26,7 @@ with tf.Session() as sess:
     threads = tf.train.start_queue_runners(sess=sess, coord=coord)
 
     image_list = []
+
     for i in range(len(original_image_list)):
         # Read a whole file from the queue, the first returned value in the tuple is the
         # filename which we are ignoring.

@@ -46,9 +46,12 @@ with tf.Session() as sess:
   sess.run(init) #within the session must be first item run before processing
   
   for i in range(1000):
+    print('m = ',sess.run(m))
+    print('b = ',sess.run(b))
+    print('loss = ', sess.run(loss, feed_dict={x:x_train, y: y_train}))
     sess.run(train, feed_dict={x: x_train, y: y_train})
-
+    print('round {} over'.format(i+1))
   # evaluate training accuracy
   curr_m, curr_b, curr_loss = sess.run([m, b, loss], {x: x_train, y: y_train})
   
-  print("m: {} b: {} loss: {}".format(curr_m[0], curr_b[0], curr_loss))
+  print("m: {} b: {} loss: {}".format(round(curr_m[0],5), round(curr_b[0],3), round(curr_loss),3))

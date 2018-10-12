@@ -45,8 +45,8 @@ with tf.Session() as sess:
 
 # In[ ]:
 
-number = tf.Variable(10)
-multiplier = tf.Variable(1)
+number = tf.Variable(10) #create the variable number
+multiplier = tf.Variable(1) #create the variable multiplier
 
 init = tf.global_variables_initializer()
 
