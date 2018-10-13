@@ -69,4 +69,3 @@ with tf.Session() as sess:
 
     print("Done!")
     print("Accuracy:", accuracy)
-    
