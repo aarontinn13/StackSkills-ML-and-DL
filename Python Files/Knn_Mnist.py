@@ -29,31 +29,26 @@ training_digits_pl = tf.placeholder("float", [None, 784])
 
 test_digit_pl = tf.placeholder("float", [784])
 
-
 # In[22]:
 
 # Nearest Neighbor calculation using L1 distance
 l1_distance = tf.abs(tf.add(training_digits_pl, tf.negative(test_digit_pl)))
 
-
 # In[23]:
 
 distance = tf.reduce_sum(l1_distance, axis=1)
 
-
 # In[24]:
 
 # Prediction: Get min distance index (Nearest neighbor)
+
 pred = tf.arg_min(distance, 0)
-
 accuracy = 0.
-
 
 # In[25]:
 
 # Initializing the variables
 init = tf.global_variables_initializer()
-
 
 # In[26]:
 
@@ -74,9 +69,4 @@ with tf.Session() as sess:
 
     print("Done!")
     print("Accuracy:", accuracy)
-
-
-# In[ ]:
-
-
-
+    
