@@ -13,9 +13,10 @@ def read_goog_sp500_dataframe():
   """Returns a dataframe with the results for Google and S&P 500"""
   
   # Point to where you've stored the CSV file on your local machine
-  googFile = 'data/GOOG.csv'
-  spFile = 'data/SP_500.csv'
+  googFile = '../Data Sets/GOOG.csv'
+  spFile = '../Data Sets/SP_500.csv'
 
+  #take the csv and change it to a pandas dataframe separated by commas, only using date and adj close etc. Header is name of the file
   goog = pd.read_csv(googFile, sep=",", usecols=[0,5], names=['Date','Goog'], header=0)
   sp = pd.read_csv(spFile, sep=",", usecols=[0,5], names=['Date','SP500'], header=0)
 
@@ -23,10 +24,10 @@ def read_goog_sp500_dataframe():
 
   # The date object is a string, format it as a date
   goog['Date'] = pd.to_datetime(goog['Date'], format='%Y-%m-%d')
-
   goog = goog.sort_values(['Date'], ascending=[True])
 
-  returns = goog[[key for key in dict(goog.dtypes) if dict(goog.dtypes)[key] in ['float64', 'int64']]]            .pct_change()
+  #calculate the percent change from day to day
+  returns = goog[[key for key in dict(goog.dtypes) if dict(goog.dtypes)[key] in ['float64', 'int64']]].pct_change()
 
   return returns
 
@@ -37,7 +38,6 @@ def read_goog_sp500_logistic_data():
   """Returns a dataframe with the results for Google and 
   S&P 500 set up for logistic regression"""
   returns = read_goog_sp500_dataframe()
-
   returns['Intercept'] = 1
 
   # Leave out the first row since it will not have a prediction for UP/DOWN
@@ -81,7 +81,7 @@ def read_xom_oil_nasdaq_data():
     data = data.sort_values(['Date'], ascending=[True])
 
     # Exclude the date from the percentage change calculation
-    returns = data[[key for key in dict(data.dtypes) if dict(data.dtypes)[key] in ['float64', 'int64']]]              .pct_change()
+    returns = data[[key for key in dict(data.dtypes) if dict(data.dtypes)[key] in ['float64', 'int64']]].pct_change()
 
     # Filter out the very first row which has no returns associated with it
     return np.array(returns["Price"])[1:]
