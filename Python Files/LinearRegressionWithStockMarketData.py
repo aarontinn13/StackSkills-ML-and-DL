@@ -110,8 +110,8 @@ googModel.fit(xData.reshape(-1,1), yData.reshape(-1,1))
 # In[67]:
 
 # Find the coefficient and intercept of this linear model
-print googModel.coef_
-print googModel.intercept_
+print(googModel.coef_)
+print(googModel.intercept_)
 
 
 # In[68]:
